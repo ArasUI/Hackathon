@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EkoTekstil - Sürdürülebilir Moda Çözümleri</title>
+  <style>
+    /* ---- Reset & Base ---- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6; color: #1d1d1f; overflow-x: hidden;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+
+    /* ---- Header ---- */
+    header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.1); }
+    header .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; }
+    .logo { font-size: 24px; font-weight: 700; color: #007AFF; letter-spacing: .2px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { text-decoration: none; color: #1d1d1f; font-weight: 500; transition: color .25s; }
+    .nav-links a:hover { color: #007AFF; }
+
+    /* ---- Hero ---- */
+    .hero { min-height: 100vh; display:flex; align-items:center; text-align:center; color:#fff;
+      background: linear-gradient(135deg, #007AFF 0%, #00C7BE 100%); position: relative; }
+    .hero h1 { font-size: clamp(36px, 7vw, 64px); font-weight: 800; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .hero p { font-size: clamp(16px, 2.5vw, 22px); opacity: .95; max-width: 720px; margin: 0 auto 28px; }
+    .cta-button { display:inline-block; background:#fff; color:#007AFF; padding:14px 32px; border-radius: 999px;
+      text-decoration:none; font-weight:700; box-shadow: 0 8px 24px rgba(0,0,0,.18); transition: transform .25s, box-shadow .25s; position: relative; overflow: hidden; }
+    .cta-button:hover { transform: translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.20); }
+    .cta-button::before { content:""; position:absolute; inset:auto auto 0 50%; width:0; height:0; border-radius:50%; background: rgba(0,122,255,.2); transform: translateX(-50%); transition: width .6s, height .6s; }
+    .cta-button:active::before { width: 280px; height: 280px; }
+
+    /* ---- Sections ---- */
+    section { padding: 110px 0; }
+    .section-header { text-align:center; margin-bottom: 70px; }
+    .section-header h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; margin-bottom: 14px; color:#1d1d1f; }
+    .section-header p { font-size: 20px; color: #6b6b6f; max-width: 800px; margin: 0 auto; }
+
+    .problem-section { background: #f5f5f7; }
+    .problem-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 28px; }
+    .card { background:#fff; border-radius: 22px; padding: 28px; text-align:center; box-shadow: 0 8px 26px rgba(0,0,0,.07);
+      cursor:pointer; position:relative; overflow:hidden; transition: transform .25s; }
+    .card:hover { transform: translateY(-6px); }
+    .card::after { content:""; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent); transition:left .6s; }
+    .card:hover::after { left:100%; }
+    .icon { width:72px; height:72px; display:flex; align-items:center; justify-content:center; margin: 0 auto 14px; border-radius: 18px; color:#fff; font-size: 36px; }
+    .icon.danger { background: linear-gradient(135deg, #FF3B30, #FF9500); }
+    .icon.info   { background: linear-gradient(135deg, #007AFF, #5856D6); }
+    .icon.ok     { background: linear-gradient(135deg, #34C759, #30D158); }
+    .card h3 { font-size: 22px; margin-bottom: 8px; }
+    .card p { color:#6b6b6f; }
+
+    .stats { margin-top: 40px; background: linear-gradient(135deg, #007AFF, #5856D6); color:#fff; border-radius: 22px; padding: 34px; text-align:center; }
+    .stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 24px; }
+    .stat h4 { font-size: 38px; font-weight: 800; }
+    .stat p { opacity: .9; }
+
+    /* ---- Solutions ---- */
+    .solutions-section { background:#fff; }
+    .steps { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 28px; }
+    .step .num { width:56px; height:56px; border-radius:50%; margin: 0 auto 14px; display:flex; align-items:center; justify-content:center;
+      color:#fff; font-weight:800; background: linear-gradient(135deg, #00C7BE, #007AFF); }
+
+    /* ---- Actions ---- */
+    .action-section { background: #f5f5f7; }
+    .actions { display:grid; grid-template-columns: repeat(auto-fit, minmax(320px,1fr)); gap: 28px; }
+    .action h3 { font-size: 24px; margin-bottom: 10px; }
+    .action p { color:#6b6b6f; margin-bottom: 14px; }
+    .btn {
+      background: linear-gradient(135deg, #007AFF, #00C7BE); color:#fff; border:none; padding:12px 20px; border-radius: 999px; font-weight:700; cursor:pointer;
+      transition: transform .2s, box-shadow .2s; box-shadow: 0 8px 22px rgba(0,122,255,.28); position:relative; overflow:hidden;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,122,255,.35); }
+    .btn::before { content:""; position:absolute; top:50%; left:50%; width:0; height:0; border-radius:50%; background: rgba(255,255,255,.35); transform: translate(-50%, -50%); transition: width .55s, height .55s; }
+    .btn:active::before { width: 260px; height: 260px; }
+
+    /* ---- Calculator ---- */
+    .calculator { background: linear-gradient(135deg, #007AFF, #00C7BE); color:#fff; text-align:center; }
+    .calc-card { background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22); border-radius: 22px; padding: 34px; margin-top: 28px; backdrop-filter: blur(18px); }
+    .form-group { text-align:left; margin-bottom: 18px; }
+    .form-group label { display:block; font-weight:700; margin-bottom: 8px; }
+    .form-group select { width:100%; padding: 12px 14px; border:none; border-radius: 12px; font-size: 16px; background: rgba(255,255,255,.94); }
+    .calc-result { display:none; margin-top: 22px; padding: 18px; border-radius: 14px; background: rgba(255,255,255,.16); text-align:left; }
+
+    /* ---- Footer ---- */
+    footer { background:#1d1d1f; color:#fff; }
+    .footer-inner { display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 32px; padding-top: 50px; padding-bottom: 34px; }
+    .footer h3 { font-size: 18px; margin-bottom: 12px; }
+    .footer a, .footer p { color:#9d9da1; text-decoration:none; display:block; margin-bottom: 8px; transition: color .2s; }
+    .footer a:hover { color:#fff; }
+    .footer-bottom { text-align:center; border-top: 1px solid #343437; padding: 18px 0; color:#9d9da1; }
+
+    /* ---- Section entrance animation ---- */
+    .section-animate { opacity: 0; transform: translateY(30px); transition: opacity .8s cubic-bezier(.25,.46,.45,.94), transform .8s cubic-bezier(.25,.46,.45,.94); }
+    .section-animate.in-view { opacity: 1; transform: translateY(0); }
+
+    /* ---- Modal ---- */
+    .modal { position: fixed; inset: 0; display:none; place-items:center; z-index: 2000;
+      background: rgba(0,0,0,0); backdrop-filter: blur(0px);
+      transition: background .35s cubic-bezier(.25,.46,.45,.94), backdrop-filter .35s cubic-bezier(.25,.46,.45,.94);
+    }
+    .modal.show { display:grid; background: rgba(0,0,0,.6); backdrop-filter: blur(10px); }
+    .modal-content { width: min(900px, 88vw); max-height: 82vh; overflow: auto; background:#fff; border-radius: 22px; padding: 30px 26px; position: relative;
+      transform: scale(.9) translateY(40px); opacity: 0; transition: transform .35s cubic-bezier(.25,.46,.45,.94), opacity .35s;
+    }
+    .modal.show .modal-content { transform: scale(1) translateY(0); opacity: 1; }
+    .modal .close { position:absolute; top: 14px; right: 18px; font-size: 30px; color:#6b6b6f; cursor:pointer; border:none; background:transparent; }
+    .modal .close:hover { color:#1d1d1f; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .container { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header aria-label="Site üst menü">
+    <nav class="container nav" role="navigation">
+      <div class="logo">EkoTekstil</div>
+      <ul class="nav-links">
+        <li><a href="#ana-sayfa">Ana Sayfa</a></li>
+        <li><a href="#problem">Problem</a></li>
+        <li><a href="#cozumler">Çözümler</a></li>
+        <li><a href="#aksiyon">Aksiyon Al</a></li>
+        <li><a href="#hesaplayici">Hesaplayıcı</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== Hero ===== -->
+  <section id="ana-sayfa" class="hero section-animate" aria-label="Kahraman başlık">
+    <div class="container">
+      <h1>Tekstil Atıklarına Son</h1>
+      <p>Dünyamızı korumak için bugün harekete geç. Sürdürülebilir moda ile fark yarat.</p>
+      <a class="cta-button" href="#problem">Problemi Öğren</a>
+    </div>
+  </section>
+
+  <!-- ===== Problem ===== -->
+  <section id="problem" class="problem-section section-animate" aria-label="Tekstil atık krizi">
+    <div class="container">
+      <div class="section-header">
+        <h2>Tekstil Atık Krizi</h2>
+        <p>Moda endüstrisi dünyamızı nasıl tehdit ediyor? Rakamlarla gerçekleri öğren.</p>
+      </div>
+
+      <div class="problem-grid" role="list">
+        <article class="card" role="listitem" onclick="openModal('water-modal')" aria-haspopup="dialog" aria-controls="water-modal">
+          <div class="icon danger" aria-hidden="true">💧</div>
+          <h3>Su Kirliliği</h3>
+          <p>Tekstil endüstrisi küresel su kirliliğinde başı çekiyor. Detayları öğren.</p>
+        </article>
+
+        <article class="card" role="listitem" onclick="openModal('carbon-modal')" aria-haspopup="dialog" aria-controls="carbon-modal">
+          <div class="icon danger" aria-hidden="true">🏭</div>
+          <h3>Karbon Emisyonu</h3>
+          <p>Yılda yüz milyonlarca ton CO₂ salımı. Hangi aşamada ne oluyor?</p>
+        </article>
+
+        <article class="card" role="listitem" onclick="openModal('waste-modal')" aria-haspopup="dialog" aria-controls="waste-modal">
+          <div class="icon danger" aria-hidden="true">🗑️</div>
+          <h3>Çöp Dağları</h3>
+          <p>Her saniye bir kamyon dolusu tekstil atığı çöpe gidiyor.</p>
+        </article>
+
+        <article class="card" role="listitem" onclick="openModal('chemicals-modal')" aria-haspopup="dialog" aria-controls="chemicals-modal">
+          <div class="icon danger" aria-hidden="true">☠️</div>
+          <h3>Kimyasal Tehlike</h3>
+          <p>Boyalar ve apre kimyasalları hem insanı hem doğayı etkiliyor.</p>
+        </article>
+
+        <article class="card" role="listitem" onclick="openModal('labor-modal')" aria-haspopup="dialog" aria-controls="labor-modal">
+          <div class="icon info" aria-hidden="true">👥</div>
+          <h3>İşçi Hakları</h3>
+          <p>Milyonlarca kişi düşük ücret ve güvensiz koşullarda çalışıyor.</p>
+        </article>
+
+        <article class="card" role="listitem" onclick="openModal('resources-modal')" aria-haspopup="dialog" aria-controls="resources-modal">
+          <div class="icon info" aria-hidden="true">🌍</div>
+          <h3>Kaynak Tüketimi</h3>
+          <p>Su, enerji ve tarım alanı kullanımı hızla artıyor.</p>
+        </article>
+      </div>
+
+      <div class="stats" aria-live="polite">
+        <h3 style="font-weight:800; margin-bottom: 10px;">Şok Edici Gerçekler</h3>
+        <div class="stats-grid">
+          <div class="stat"><h4>92 Milyon Ton</h4><p>Yıllık küresel tekstil atığı</p></div>
+          <div class="stat"><h4>2.700 Litre</h4><p>Bir tişört için ortalama su</p></div>
+          <div class="stat"><h4>%85</h4><p>Çöpe giden kıyafet oranı</p></div>
+          <div class="stat"><h4>150 Milyar</h4><p>Yıllık üretilen parça sayısı</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Solutions ===== -->
+  <section id="cozumler" class="solutions-section section-animate" aria-label="Çözüm yolları">
+    <div class="container">
+      <div class="section-header">
+        <h2>Çözüm Yolları</h2>
+        <p>Değişim mümkün. Bu adımları takip ederek fark yaratabiliriz.</p>
+      </div>
+      <div class="steps">
+        <article class="card step" onclick="openModal('conscious-modal')">
+          <div class="num">1</div>
+          <h3>Bilinçli Satın Al</h3>
+          <p>Az ama kaliteli, etik üretim yapan markaları tercih et.</p>
+        </article>
+        <article class="card step" onclick="openModal('care-modal')">
+          <div class="num">2</div>
+          <h3>Doğru Bakım Yap</h3>
+          <p>Kıyafetlerinin ömrünü uzat: onar, temizle, koru.</p>
+        </article>
+        <article class="card step" onclick="openModal('reuse-modal')">
+          <div class="num">3</div>
+          <h3>Yeniden Kullan</h3>
+          <p>Takas et, bağışla, upcycle projeleri yap.</p>
+        </article>
+        <article class="card step" onclick="openModal('recycle-modal')">
+          <div class="num">4</div>
+          <h3>Geri Dönüştür</h3>
+          <p>Yerel tekstil geri dönüşüm noktalarını kullan.</p>
+        </article>
+        <article class="card step" onclick="openModal('influence-modal')">
+          <div class="num">5</div>
+          <h3>Etki Yarat</h3>
+          <p>Çevreni bilinçlendir, markaları değişime zorla.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Actions ===== -->
+  <section id="aksiyon" class="action-section section-animate" aria-label="Hemen harekete geç">
+    <div class="container">
+      <div class="section-header">
+        <h2>Hemen Harekete Geç</h2>
+        <p>Bugün başlayabileceğin pratik çözümler. Hangisini deneyeceksin?</p>
+      </div>
+      <div class="actions">
+        <article class="card action">
+          <h3>30 Günlük Meydan Okuma</h3>
+          <p>Bir ay boyunca kıyafet alışverişi yapmama sözü ver. Dolabındaki parçalarla yaratıcı kombinler yap.</p>
+          <button class="btn" onclick="startChallenge()">Meydan Okumaya Başla</button>
+        </article>
+        <article class="card action">
+          <h3>Kıyafet Değişimi</h3>
+          <p>Arkadaşlarınla takas partisi düzenle. Sıkıldığın parçalar başkasının favorisi olabilir.</p>
+          <button class="btn" onclick="organizeSwap()">Takas Organize Et</button>
+        </article>
+        <article class="card action">
+          <h3>Sürdürülebilir Markalar</h3>
+          <p>Çevre dostu üretim yapan markaları keşfet ve alışveriş alışkanlıklarını değiştir.</p>
+          <button class="btn" onclick="findBrands()">Marka Listesi Al</button>
+        </article>
+        <article class="card action">
+          <h3>DIY Projeleri</h3>
+          <p>Eski kıyafetlerini yeni parçalara dönüştür, yaratıcılığını ortaya çıkar.</p>
+          <button class="btn" onclick="getDIYGuide()">Rehber İndir</button>
+        </article>
+        <article class="card action">
+          <h3>Farkındalık Kampanyası</h3>
+          <p>Sosyal medyada bilinçlendirme paylaşımları yap. #SürdürülebilirModa etiketiyle ses ver.</p>
+          <button class="btn" onclick="joinCampaign()">Kampanyaya Katıl</button>
+        </article>
+        <article class="card action">
+          <h3>Yerel Topluma Katıl</h3>
+          <p>Bölgendeki çevreci topluluk ve etkinliklere katıl. Birlikte daha güçlüyüz.</p>
+          <button class="btn" onclick="findCommunity()">Topluluk Bul</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Calculator ===== -->
+  <section id="hesaplayici" class="calculator section-animate" aria-label="Çevresel etki hesaplayıcı">
+    <div class="container">
+      <div class="section-header">
+        <h2 style="color:#fff">Çevresel Etki Hesaplayıcın</h2>
+        <p style="color: rgba(255,255,255,.9)">Kıyafet alışkanlıklarının çevreye etkisini hesapla</p>
+      </div>
+      <div class="calc-card">
+        <form id="impact-calculator" novalidate>
+          <div class="form-group">
+            <label for="monthly-purchases">Ayda kaç parça kıyafet alıyorsun?</label>
+            <select id="monthly-purchases" required>
+              <option value="">Seçiniz</option>
+              <option value="0">0 (Hiç almıyorum)</option>
+              <option value="1.5">1–2 parça</option>
+              <option value="4">3–5 parça</option>
+              <option value="8">6–10 parça</option>
+              <option value="12">10+ parça</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="disposal-rate">Ne sıklıkla kıyafet atıyorsun?</label>
+            <select id="disposal-rate" required>
+              <option value="">Seçiniz</option>
+              <option value="2">Yılda 1–2 kez</option>
+              <option value="4">Mevsimde 1 kez</option>
+              <option value="12">Ayda 1 kez</option>
+              <option value="24">Ayda 2+ kez</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="shopping-type">Genellikle nereden alışveriş yapıyorsun?</label>
+            <select id="shopping-type" required>
+              <option value="">Seçiniz</option>
+              <option value="fast">Hızlı moda markaları</option>
+              <option value="mid">Orta segment markalar</option>
+              <option value="luxury">Premium/Lüks markalar</option>
+              <option value="secondhand">İkinci el/vintage</option>
+              <option value="sustainable">Sürdürülebilir markalar</option>
+            </select>
+          </div>
+          <button type="submit" class="btn">Etkimi Hesapla</button>
+        </form>
+        <div id="calculator-result" class="calc-result" aria-live="polite">
+          <h3 style="margin-bottom:10px">Çevresel Etki Raporu</h3>
+          <div id="result-content"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <h3>EkoTekstil</h3>
+        <p>Sürdürülebilir moda için bilinçlendirme ve çözüm platformu. Birlikte daha iyi bir gelecek inşa ediyoruz.</p>
+      </div>
+      <div>
+        <h3>Hızlı Linkler</h3>
+        <a href="#problem">Problem</a>
+        <a href="#cozumler">Çözümler</a>
+        <a href="#aksiyon">Aksiyon Al</a>
+        <a href="#hesaplayici">Hesaplayıcı</a>
+      </div>
+      <div>
+        <h3>Kaynaklar</h3>
+        <a href="#" onclick="openModal('guide-modal')">Sürdürülebilir Moda Rehberi</a>
+        <a href="#" onclick="openModal('brands-modal')">Önerilen Markalar</a>
+        <a href="#" onclick="openModal('tips-modal')">Pratik İpuçları</a>
+      </div>
+      <div>
+        <h3>İletişim</h3>
+        <p>info@ekotekstil.com</p>
+        <p>+90 212 xxx xx xx</p>
+        <p>İstanbul, Türkiye</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2025 EkoTekstil. Tüm hakları saklıdır.</div>
+  </footer>
+
+  <!-- ===== Modals (unique IDs, no duplicates) ===== -->
+  <div id="water-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="water-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('water-modal')">×</button>
+      <h2 id="water-title">💧 Su Kirliliği ve Tüketimi</h2>
+      <p><strong>Gerçek:</strong> Tekstil endüstrisi boyama ve yıkama aşamalarında büyük miktarda su tüketir ve atık su üretir.</p>
+      <h3>Ne Yapabilirsin?</h3>
+      <ul>
+        <li>30°C soğuk su programlarını kullan</li>
+        <li>Makineyi tam doldur; daha seyrek yıka</li>
+        <li>Fosfatsız, çevre dostu deterjan tercih et</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="carbon-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="carbon-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('carbon-modal')">×</button>
+      <h2 id="carbon-title">🏭 Karbon Emisyonu</h2>
+      <p>Üretim, lojistik ve kullanım aşamalarındaki enerji tüketimi toplam CO₂ salımını belirler.</p>
+      <h3>Azaltma İpuçları</h3>
+      <ul>
+        <li>İkinci el alışverişi artır</li>
+        <li>Kurutma makinesinden kaçın, güneşte kurut</li>
+        <li>Yakın coğrafyada üretilen ürünleri tercih et</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="waste-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="waste-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('waste-modal')">×</button>
+      <h2 id="waste-title">🗑️ Tekstil Atığı</h2>
+      <p>Hızlı moda ve düşük kalite, kısa kullanım ömrü ve yüksek atık demektir.</p>
+      <ul>
+        <li>"1 al, 1 çıkar" prensibini uygula</li>
+        <li>Takas günlerine katıl</li>
+        <li>Geri dönüşüm noktalarını kullan</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="chemicals-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="chem-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('chemicals-modal')">×</button>
+      <h2 id="chem-title">☠️ Kimyasal Tehlike</h2>
+      <p>Boyalar, ağır metaller ve PFAS gibi maddeler sağlık riskleri taşır.</p>
+      <p><strong>Çözüm:</strong> OEKO‑TEX, GOTS gibi sertifikaları arayın.</p>
+    </div>
+  </div>
+
+  <div id="labor-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="labor-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('labor-modal')">×</button>
+      <h2 id="labor-title">👥 İşçi Hakları</h2>
+      <p>Adil ücret ve güvenli çalışma koşulları temel haktır.</p>
+      <p><strong>İpucu:</strong> Adil ticaret ve şeffaf tedarik zinciri olan markaları destekleyin.</p>
+    </div>
+  </div>
+
+  <div id="resources-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="res-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('resources-modal')">×</button>
+      <h2 id="res-title">🌍 Kaynak Tüketimi</h2>
+    <p>Su, enerji ve tarım alanı kullanımını düşüren alternatif lifler: keten, kenevir, Tencel vb.</p>
+    </div>
+  </div>
+
+  <div id="conscious-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cons-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('conscious-modal')">×</button>
+      <h2 id="cons-title">🧠 Bilinçli Alışveriş Rehberi</h2>
+      <ul>
+        <li>“30 giy” kuralı: En az 30 kez giyecek misin?</li>
+        <li>Cost‑per‑wear hesabı yap</li>
+        <li>Etiketleri ve sertifikaları kontrol et</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="care-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="care-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('care-modal')">×</button>
+      <h2 id="care-title">🧺 Kıyafet Bakım Kılavuzu</h2>
+      <ul>
+        <li>30°C’de yıkayın, ters yüz edin</li>
+        <li>Hava ile kurutun, ütüyü azaltın</li>
+        <li>Küçük yırtıkları hemen onarın</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="reuse-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="reuse-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('reuse-modal')">×</button>
+      <h2 id="reuse-title">♻️ Yeniden Kullanım Fikirleri</h2>
+      <ul>
+        <li>Upcycle: Jean → çanta, tişört → tote</li>
+        <li>Takas partileri düzenle</li>
+        <li>Bağış ve kiralama seçenekleri</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="recycle-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="recycle-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('recycle-modal')">×</button>
+      <h2 id="recycle-title">🔁 Geri Dönüşüm Rehberi</h2>
+      <ul>
+        <li>Belediye tekstil konteynerleri</li>
+        <li>H&M gibi mağaza içi toplama kutuları</li>
+        <li>Yerel STK ve vakıflar</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="influence-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="inf-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('influence-modal')">×</button>
+      <h2 id="inf-title">📣 Etki Yarat</h2>
+      <ul>
+        <li>#SürdürülebilirModa etiketiyle paylaş</li>
+        <li>Markalara şeffaflık soruları yönelt</li>
+        <li>Yerel topluluklara katıl</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="guide-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="guide-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('guide-modal')">×</button>
+      <h2 id="guide-title">Sürdürülebilir Moda Rehberi</h2>
+      <p>Alışveriş öncesi planlama, marka seçimi, bakım ve onarım üzerine pratik adımlar.</p>
+    </div>
+  </div>
+
+  <div id="brands-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="brands-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('brands-modal')">×</button>
+      <h2 id="brands-title">Önerilen Sürdürülebilir Markalar</h2>
+      <h3>Uluslararası</h3>
+      <ul><li>Patagonia</li><li>Reformation</li><li>Stella McCartney</li><li>Everlane</li></ul>
+      <h3>Türkiye</h3>
+      <ul><li>Mavi (su tasarruflu denim)</li><li>Altınyıldız</li><li>Beymen Club (ek koleksiyonlar)</li></ul>
+      <p>Sertifikalar: GOTS, OEKO‑TEX, Cradle to Cradle, B‑Corp</p>
+    </div>
+  </div>
+
+  <div id="tips-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="tips-title">
+    <div class="modal-content">
+      <button class="close" aria-label="Kapat" onclick="closeModal('tips-modal')">×</button>
+      <h2 id="tips-title">Pratik İpuçları</h2>
+      <h3>Akıllı Alışveriş</h3>
+      <ul>
+        <li>24 saat kuralı: Kararı ertesi gün ver</li>
+        <li>1 al 1 çıkar</li>
+        <li>Çok amaçlı parçalar seç</li>
+      </ul>
+      <h3>Akıllı Yıkama</h3>
+      <ul>
+        <li>Guppyfriend gibi torbalarla mikroplastikleri azalt</li>
+        <li>Soğuk su programı kullan</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // ===== IntersectionObserver for section animations =====
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.section-animate').forEach(el => observer.observe(el));
+
+    // ===== Modal controls with animation =====
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      // graceful fade out
+      modal.classList.remove('show');
+      // After animation, hide fully so it doesn't trap focus
+      setTimeout(() => { modal.style.display = 'none'; modal.offsetHeight; modal.style.display = ''; }, 350);
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close when clicking backdrop or pressing ESC
+    document.querySelectorAll('.modal').forEach(m => {
+      m.addEventListener('click', (e) => { if (e.target === m) closeModal(m.id); });
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => closeModal(m.id));
+    });
+
+    // ===== Action button helpers =====
+    function startChallenge() {
+      alert('🎉 30 günlük “Yeni Kıyafet Almama” meydan okuması başladı!\n\nİpuçları:\n• Dolabını yeniden düzenle\n• Farklı kombin teknikleri dene\n• İlerlemeni paylaş (#30GünMeydan)');
+    }
+    function organizeSwap() {
+      alert('👚 Kıyafet Takas Partisi Rehberi:\n\n• 5–10 arkadaşını davet et\n• Temiz ve iyi durumda parçalar getirilsin\n• Kategorilere göre sergile (üst/alt/aksesuar)');
+    }
+    function findBrands() {
+      alert('🌱 Sertifikalar: GOTS, OEKO‑TEX, Cradle to Cradle, B‑Corp.\n\nUluslararası: Patagonia, Reformation, Stella McCartney, Everlane\nTürkiye: Mavi, Altınyıldız, Beymen Club');
+    }
+    function getDIYGuide() {
+      alert('✂️ DIY rehberi: Jean→çanta, tişört→tote, gömlek→yastık kılıfı vb. Gerekli malzemeler: makas, iğne‑iplik, (ops.) dikiş makinesi.');
+    }
+    function joinCampaign() {
+      alert('📢 #SürdürülebilirModa kampanyasına katıl:\n1) Dolap analizi\n2) Bilinçli alışveriş ipuçları\n3) DIY projesi\n4) Marka önerisi');
+    }
+    function findCommunity() {
+      alert('🤝 Yerel topluluklar ve atölyeleri takip et: belediye/üniversite çevre kulüpleri, sıfır atık grupları.');
+    }
+
+    // ===== Calculator logic =====
+    document.getElementById('impact-calculator').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const monthly = parseFloat(document.getElementById('monthly-purchases').value);
+      const disposal = parseInt(document.getElementById('disposal-rate').value, 10);
+      const type = document.getElementById('shopping-type').value;
+      if (isNaN(monthly) || isNaN(disposal) || !type) return;
+
+      const yearlyPurchases = monthly * 12;
+
+      // Approx impact factors per new item (illustrative)
+      const factors = {
+        fast:        { water: 2700, co2: 28, score: 'Yüksek' },
+        mid:         { water: 2200, co2: 22, score: 'Orta‑Yüksek' },
+        luxury:      { water: 1800, co2: 18, score: 'Orta' },
+        secondhand:  { water: 150,  co2: 2,  score: 'Düşük' },
+        sustainable: { water: 800,  co2: 10, score: 'Düşük' }
+      };
+      const f = factors[type];
+      const totalWater = Math.round(yearlyPurchases * f.water);
+      const totalCO2 = Math.round(yearlyPurchases * f.co2);
+
+      let color = '#34C759', msg = '✅ Tebrikler! Çevresel etkiniz düşük.';
+      if (f.score === 'Orta') { color = '#FFD60A'; msg = '📊 Etkiniz orta seviyede. Daha da iyileştirebilirsiniz.'; }
+      if (f.score === 'Orta‑Yüksek') { color = '#FF9500'; msg = '⚠️ Ortanın üstündesiniz. Hedefli iyileştirmeler yapın.'; }
+      if (f.score === 'Yüksek') { color = '#FF3B30'; msg = '🚨 Etkiniz yüksek. Alışkanlıkları gözden geçirme zamanı.'; }
+
+      const rec = {
+        'Yüksek': ['Aylık alışverişi yarıya indir', 'İkinci el/yerel üretim tercih et', 'Takas ve tamir kültürünü benimse'],
+        'Orta‑Yüksek': ['Kaliteli ve zamansız parçalar al', 'Sürdürülebilir markaları araştır', 'Dolabını planla, listeyle al'],
+        'Orta': ['İkinci el/vintage dene', 'Bakım rutinini iyileştir', 'Upcycle projeleri yap'],
+        'Düşük': ['Alışkanlıklarını sürdür', 'Çevreni bilinçlendir', 'Topluluklara katıl']
+      };
+
+      const result = document.getElementById('calculator-result');
+      const content = document.getElementById('result-content');
+      content.innerHTML = `
+        <div style="background:${color};color:#fff;padding:14px;border-radius:12px;margin-bottom:12px"><strong>Skor:</strong> ${f.score}</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:10px">
+          <div style="background:#E3F2FD;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-weight:800;color:#1976D2">💧 Su Tüketimi</div>
+            <div style="font-size:22px;font-weight:800;color:#1976D2">${totalWater.toLocaleString('tr-TR')} L/yıl</div>
+          </div>
+          <div style="background:#E8F5E9;border-radius:10px;padding:12px;text-align:center">
+            <div style="font-weight:800;color:#2E7D32">🌍 Karbon</div>
+            <div style="font-size:22px;font-weight:800;color:#2E7D32">${totalCO2.toLocaleString('tr-TR')} kg CO₂/yıl</div>
+          </div>
+        </div>
+        <p>${msg}</p>
+        <ul>${rec[f.score].map(r => `<li>• ${r}</li>`).join('')}</ul>
+      `;
+      result.style.display = 'block';
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+</body>
+</html>
